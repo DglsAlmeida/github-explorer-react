@@ -33,8 +33,8 @@ interface Issue {
 }
 
 const Repository: React.FC = () => {
-  const [repository, setRepository] = useState<Repository | null>(null);
-  const [issues, setIssues] = useState<Issue[]>([]);
+  const [repo, setRepository] = useState<Repository | null>(null);
+  const [issue, setIssues] = useState<Issue[]>([]);
   const { params } = useRouteMatch<RepositoryParams>();
 
   useEffect(() => {
@@ -59,29 +59,26 @@ const Repository: React.FC = () => {
         </Link>
       </Header>
 
-      {repository && (
+      {repo && (
         <RepositoryInfo>
           <header>
-            <img
-              src={repository.owner.avatar_url}
-              alt={repository.owner.login}
-            />
+            <img src={repo.owner.avatar_url} alt={repo.owner.login} />
             <div>
-              <strong>{repository.full_name}</strong>
-              <p>{repository.description}</p>
+              <strong>{repo.full_name}</strong>
+              <p>{repo.description}</p>
             </div>
           </header>
           <ul>
             <li>
-              <strong>{repository.stargazers_count}</strong>
+              <strong>{repo.stargazers_count}</strong>
               <span>Stars</span>
             </li>
             <li>
-              <strong>{repository.forks_count}</strong>
+              <strong>{repo.forks_count}</strong>
               <span>Forks</span>
             </li>
             <li>
-              <strong>{repository.open_issues_count}</strong>
+              <strong>{repo.open_issues_count}</strong>
               <span>Issues abertas</span>
             </li>
           </ul>
@@ -89,12 +86,16 @@ const Repository: React.FC = () => {
       )}
 
       <Issues>
-        {issues.map(issue => (
-          // eslint-disable-next-line react/jsx-no-target-blank
-          <a key={issue.id} target="_blank" href={issue.html_url}>
+        {issue.map(issueReported => (
+          <a
+            key={issueReported.id}
+            // eslint-disable-next-line react/jsx-no-target-blank
+            target="_blank"
+            href={issueReported.html_url}
+          >
             <div>
-              <strong>{issue.title}</strong>
-              <p>{issue.user.login}</p>
+              <strong>{issueReported.title}</strong>
+              <p>{issueReported.user.login}</p>
             </div>
             <FiChevronRight size={20} />
           </a>
